@@ -1,0 +1,46 @@
+import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.edge.EdgeDriver;
+import org.openqa.selenium.interactions.Actions;
+
+public class Basic {
+	public static void main(String[] args) throws InterruptedException {
+		// TODO Auto-generated method stub
+		System.setProperty("webdriver.edge.driver", "C:\\Program Files\\msedgedriver.exe");
+		WebDriver driver=new EdgeDriver();
+		driver.get("https://www.marriott.com/default.mi");
+		System.out.println(driver.getTitle());
+		driver.findElement(By.xpath("//input[@placeholder='Where can we take you?']")).sendKeys("Chennai");
+		Thread.sleep(2000L);
+		Actions a=new Actions(driver);
+		WebElement entercity=driver.findElement(By.xpath("//input[@placeholder='Where can we take you?']"));
+		a.moveToElement(entercity).sendKeys(Keys.ARROW_DOWN).build().perform();
+		a.moveToElement(entercity).sendKeys(Keys.ENTER).build().perform();
+		driver.findElement(By.xpath("//span[@class='h-r-form-field-txt search__calendar-value']")).click();
+		String month=driver.findElement(By.xpath("//div[@class='DayPicker-Caption']")).getText();
+		WebElement nextMonth=driver.findElement(By.xpath("//span[@aria-label='Next Month']"));
+		System.out.println(month);
+		//if(month.contains("MAY")) {
+			//System.out.println("It is may");
+		//}
+		//System.out.println(month);
+		while(!month.contains("SEPTEMBER")) {
+			
+			a.moveToElement(nextMonth).click().build().perform();	
+			month=driver.findElement(By.xpath("//div[@class='DayPicker-Caption']")).getText();
+			System.out.println(month);
+			if(month=="SEPTEMBER 2022") {
+				System.out.println("Sept");
+			}
+		}
+		WebElement date1=driver.findElement(By.xpath("//div[contains(@aria-label,'Sep')]//span[text()='17']"));
+		WebElement date2=driver.findElement(By.xpath("//div[contains(@aria-label,'Sep')]//span[text()='19']"));
+
+		a.moveToElement(date1).click().build().perform();
+		a.moveToElement(date2).click().build().perform();
+		WebElement done=driver.findElement(By.xpath("//button[text()='Done']"));
+		a.moveToElement(done).click().build().perform();
+	}
+}

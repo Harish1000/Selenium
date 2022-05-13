@@ -1,0 +1,25 @@
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.edge.EdgeDriver;
+import org.openqa.selenium.interactions.Actions;
+
+public class Dashboard {
+
+	public static void main(String[] args) throws InterruptedException {
+		// TODO Auto-generated method stub
+		System.setProperty("webdriver.edge.driver", "C:\\Program Files\\msedgedriver.exe");
+		WebDriver driver=new EdgeDriver();
+		driver.get("https://www.marriott.com/default.mi");
+		driver.findElement(By.xpath("//span[@class='icon-menu']")).click();
+		Actions a=new Actions(driver);
+		WebElement vacations=driver.findElement(By.xpath("//span[text()='Vacations']"));
+		a.moveToElement(vacations).click().build().perform();
+		WebElement Home=driver.findElement(By.xpath("//a[@data-custom_click_track_value='Homes & Villas|Homes & Villas|external']"));
+		a.moveToElement(Home).click().build().perform();
+		Thread.sleep(2000L);
+		
+		//WebElement ClosePopUp=driver.findElement(By.xpath("//i[@data-locator='popup-general-cross-icon']"));
+		//a.moveToElement(ClosePopUp).click().build().perform();
+	}
+}

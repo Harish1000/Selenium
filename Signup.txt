@@ -1,0 +1,25 @@
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.edge.EdgeDriver;
+import org.openqa.selenium.interactions.Actions;
+
+public class Signup {
+
+	public static void main(String[] args) throws InterruptedException {
+		// TODO Auto-generated method stub
+		System.setProperty("webdriver.edge.driver", "C:\\Program Files\\msedgedriver.exe");
+		WebDriver driver=new EdgeDriver();
+		driver.get("https://www.marriott.com/default.mi");
+		driver.findElement(By.xpath("//a[@data-description='Join']")).click();
+		driver.findElement(By.xpath("//input[@name='firstName']")).sendKeys("Harish");
+		
+		driver.findElement(By.xpath("//input[@name='lastName']")).sendKeys("Harish");
+		Thread.sleep(2000L);
+		Actions a=new Actions(driver);
+		WebElement country=driver.findElement(By.xpath("//div[@class='selectric-wrapper selectric-mi-select selectric-js-countries-list']"));
+		a.moveToElement(country).click().build().perform();
+		driver.findElement(By.xpath("//li[text()='India']")).click();
+		driver.findElement(By.xpath("//input[@name='email']")).sendKeys("Harish@gmail.com");
+	}
+}
