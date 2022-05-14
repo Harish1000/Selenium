@@ -1,15 +1,28 @@
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
+
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.edge.EdgeDriver;
 import org.openqa.selenium.interactions.Actions;
 
 public class Basic {
 	public static void main(String[] args) throws InterruptedException {
 		// TODO Auto-generated method stub
-		System.setProperty("webdriver.edge.driver", "C:\\Program Files\\msedgedriver.exe");
-		WebDriver driver=new EdgeDriver();
+		String Bookmonth="SEPTEMBER";
+		String label="Sep";
+		int roomswanted=2;
+		int adults=2;
+		int children=1;
+		int age=3;
+		System.setProperty("webdriver.chrome.driver", "C:\\Program Files\\chromedriver.exe");
+		WebDriver driver=new ChromeDriver();
 		driver.get("https://www.marriott.com/default.mi");
 		System.out.println(driver.getTitle());
 		driver.findElement(By.xpath("//input[@placeholder='Where can we take you?']")).sendKeys("Chennai");
@@ -21,26 +34,42 @@ public class Basic {
 		driver.findElement(By.xpath("//span[@class='h-r-form-field-txt search__calendar-value']")).click();
 		String month=driver.findElement(By.xpath("//div[@class='DayPicker-Caption']")).getText();
 		WebElement nextMonth=driver.findElement(By.xpath("//span[@aria-label='Next Month']"));
-		System.out.println(month);
-		//if(month.contains("MAY")) {
-			//System.out.println("It is may");
-		//}
-		//System.out.println(month);
-		while(!month.contains("SEPTEMBER")) {
-			
+		while(!month.contains(Bookmonth)) {
 			a.moveToElement(nextMonth).click().build().perform();	
 			month=driver.findElement(By.xpath("//div[@class='DayPicker-Caption']")).getText();
-			System.out.println(month);
-			if(month=="SEPTEMBER 2022") {
-				System.out.println("Sept");
-			}
 		}
-		WebElement date1=driver.findElement(By.xpath("//div[contains(@aria-label,'Sep')]//span[text()='17']"));
-		WebElement date2=driver.findElement(By.xpath("//div[contains(@aria-label,'Sep')]//span[text()='19']"));
-
+		WebElement date1=driver.findElement(By.xpath("//div[contains(@aria-label,"+label+")]//span[text()='17']"));
+		WebElement date2=driver.findElement(By.xpath("//div[contains(@aria-label,"+label+")]//span[text()='18']"));
+	
 		a.moveToElement(date1).click().build().perform();
 		a.moveToElement(date2).click().build().perform();
 		WebElement done=driver.findElement(By.xpath("//button[text()='Done']"));
 		a.moveToElement(done).click().build().perform();
+		WebElement room=driver.findElement(By.xpath("//button[text()='1 Room, 1 Guest']"));
+		a.moveToElement(room).click().build().perform();
+		for(int i=0;i<roomswanted;i++) {
+			WebElement addRooms=driver.findElement(By.xpath("//span[text()='Add Rooms']"));
+			a.moveToElement(addRooms).click().build().perform();
+		}
+		for(int i=0;i<adults;i++) {
+			WebElement addAdults=driver.findElement(By.xpath("//span[text()='Add Adults']"));
+			a.moveToElement(addAdults).click().build().perform();
+		}
+
+		for(int i=0;i<children;i++) {
+			WebElement addChildren=driver.findElement(By.xpath("//span[text()='Add Children']"));
+			a.moveToElement(addChildren).click().build().perform();
+		}
+		Thread.sleep(2000L);
+		WebElement addAge=driver.findElement(By.xpath("//span[text()='Add Age']"));
+		for(int i=0;i<age;i++) {
+			
+			JavascriptExecutor executor = (JavascriptExecutor)driver;
+			//executor.executeScript("arguments[0].click();", addAge);
+			a.moveToElement(addAge).click().build().perform();
+			Thread.sleep(1000L);
+			
+		}
+		driver.findElement(By.xpath("//button[text()='Find Hotels']")).click();
 	}
 }
